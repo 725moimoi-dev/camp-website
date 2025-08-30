@@ -11,6 +11,10 @@
     #pokemonImage {
       width: 100%;
     }
+        .silhouette {
+      filter: brightness(0) contrast(1.5);
+    }
+
   </style>
 </head>
 <body>
@@ -62,7 +66,8 @@ fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonNumber}`)
      
       // ポケモンの画像を表示
       pokemonImage.src = data.sprites.front_default;
-      #pokemonImage{filter: brightness(0) saturate(100%);}
+     img.classList.add("silhouette");
+
     })
     .catch(function(error) {
       // エラーが発生した場合はコンソールに出力

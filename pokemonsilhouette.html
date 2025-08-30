@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ポケモンシルエットクイズ</title>
+  <style>
+    .silhouette {
+      filter: brightness(0) contrast(100); /* 黒いシルエット化 */
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+  <h1>だーれだ？</h1>
+  <img id="pokemonImage" class="silhouette" alt="ポケモン">
+  <br>
+  <input type="text" id="answer" placeholder="ポケモンの名前を入力">
+  <button onclick="checkAnswer()">答える</button>
+  <p id="result"></p>
+
+  <script>
+    let correctName = "";
+
+    async function loadPokemon() {
+      const randomId = Math.floor(Math.random() * 151) + 1; // 初代151匹から
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
+      const data = await response.json();
+      correctName = data.name; // 正解を保存
+      document.getElementById("pokemonImage").src = data.sprites.front_default;
+    }
+
+    function checkAnswer() {
+      const userAnswer = document.getElementById("answer").value.toLowerCase();
+      const result = document.getElementById("result");
+      if (userAnswer === correctName) {
+        result.textContent = "🎉 正解！";
+      } else {
+        result.textContent = `❌ 不正解…正解は ${correctName} でした！`;
+      }
+      document.getElementById("pokemonImage").classList.remove("silhouette"); // 答え合わせでシルエット解除
+    }
+
+    loadPokemon();
+  </script>
+</body>
+</html>
